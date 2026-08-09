@@ -35,10 +35,22 @@ html {
 
     animation: a 2s linear infinite;
 }
+@keyframes spin {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.spinning img {
+    animation: spin 2s linear infinite;
+}
 </style>
 </head>
 <body>
-    <h1>Test</h1>
+<button onclick="toggleSpin()">Spin Images</button>
 <img src="https://upload.wikimedia.org/wikipedia/commons/e/e9/Official_portrait_of_Barack_Obama.jpg?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=original" style="width:500px;height:500px;">
 <img src="https://mastersofscale.com/wp-content/uploads/2022/09/MoS_PresidentBarackObama_colorcutout-800x800.webp"style="width:500px;height:500px;">
 <img src="https://politifact.com/wp-content/uploads/2026/07/barack_obama_2021.jpg"style="width:500px;height:500px;">
@@ -48,5 +60,10 @@ html {
 <img src="https://www.cidob.org/sites/default/files/styles/max_width_290/public/2025-07/Obama.jpg.webp?itok=-yhB-hZ1"style="width:500px;height:500px;">
 <img src="https://www.senate.gov/artandhistory/history/resources/graphic/xlarge/ObamaBarack.jpg"style="width:500px;height:500px;">
 <img src="https://upload.wikimedia.org/wikipedia/commons/7/73/Barack_Obama_in_2016.jpg?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=original"style="width:500px;height:500px;">
+<script>
+function toggleSpin() {
+    document.body.classList.toggle("spinning");
+}
+</script>
 </body>
 </html>
