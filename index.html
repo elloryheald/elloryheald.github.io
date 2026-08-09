@@ -35,31 +35,8 @@ html {
 
     animation: a 2s linear infinite;
 }
-<img
-    src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSEf2syg5E56WTfgZpPh5fCT4f7Bwr2v-qBjtliS7Vq8M4_uNrNdwPNCVhS&s=10"
-    onclick="spinImages()"
-    style="
-        width:150px;
-        cursor:pointer;
-        user-select:none;
-    "
->
 </style>
 </head>
-<script>
-function spinImages() {
-    const images = document.querySelectorAll("img");
-
-    images.forEach(img => {
-        img.classList.remove("spin");
-
-        // Restart the animation if the button is clicked again
-        void img.offsetWidth;
-
-        img.classList.add("spin");
-    });
-}
-</script>
 <body>
     <h1>Test</h1>
 <img src="https://upload.wikimedia.org/wikipedia/commons/e/e9/Official_portrait_of_Barack_Obama.jpg?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=original" style="width:500px;height:500px;">
@@ -71,8 +48,5 @@ function spinImages() {
 <img src="https://www.cidob.org/sites/default/files/styles/max_width_290/public/2025-07/Obama.jpg.webp?itok=-yhB-hZ1"style="width:500px;height:500px;">
 <img src="https://www.senate.gov/artandhistory/history/resources/graphic/xlarge/ObamaBarack.jpg"style="width:500px;height:500px;">
 <img src="https://upload.wikimedia.org/wikipedia/commons/7/73/Barack_Obama_in_2016.jpg?utm_source=commons.wikimedia.org&utm_campaign=index&utm_content=original"style="width:500px;height:500px;">
-<button onclick="spinImages()">
-    SPIN
-</button>
 </body>
 </html>
