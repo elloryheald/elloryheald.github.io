@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Slot Machine</title>
+
+<style>
+body{
+    margin:0;
+    font-family:Arial,sans-serif;
+    background:linear-gradient(135deg,#1a1a1a,#333);
+    color:white;
+    text-align:center;
+}
+
+h1{
+    margin-top:30px;
+    font-size:48px;
+}
+
+#coins{
+    color:gold;
+    font-size:36px;
+}
+
+.slot-machine{
+    display:flex;
+    justify-content:center;
+    gap:25px;
+    margin:40px 0;
+}
+
+.reel{
+    width:160px;
+    height:160px;
+    background:white;
+    border:6px solid gold;
+    border-radius:15px;
+    overflow:hidden;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.reel img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+}
+
+button{
+    font-size:26px;
+    padding:15px 35px;
+    border:none;
+    border-radius:12px;
+    background:gold;
+    cursor:pointer;
+    transition:.2s;
+}
+
+button:hover{
+    transform:scale(1.05);
+}
+
+button:disabled{
+    opacity:.6;
+    cursor:not-allowed;
+}
+
+#message{
+    font-size:30px;
+    margin-top:25px;
+    min-height:40px;
+    color:#00ff66;
+}
+</style>
+</head>
+
+<body>
+
+<h1>🎰 Slot Machine</h1>
+
+<h2>Coins: <span id="coins">1000</span></h2>
+
+<div class="slot-machine">
+    <div class="reel"><img id="img1"></div>
+    <div class="reel"><img id="img2"></div>
+    <div class="reel"><img id="img3"></div>
+</div>
+
+<button id="spinButton" onclick="spin()">SPIN (10 Coins)</button>
+
+<p id="message"></p>
+
+<script>
+
+let coins = 1000;
+
+const symbols = [
+
+{
+name:"Cherry",
+img:"https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSIQzzcbrnxKLYaSqAqXoc3n5PAcbxFmUNEksLeh36TYQ&s=10"
+},
+
+{
+name:"Lemon",
+img:"https://images.ctfassets.net/l7h59hfnlxjx/582Lx8AhvXHgRLXagk73lV/ef827f6b381202b112b61e218d8e3154/President_Obama_Headshot__Economic_Inclusion___Photo_by_Pari_Dukovic_courtesy_of_Penguin_Random_House_.jpg?q=75&w=2108&fm=webp"
+},
+
+{
+name:"Diamond",
+img:"https://upload.wikimedia.org/wikipedia/commons/thumb/c/c6/Official_portrait_of_Barack_Obama-2.jpg/960px-Official_portrait_of_Barack_Obama-2.jpg"
+},
+
+{
+name:"Seven",
+img:"https://politifact.com/wp-content/uploads/2026/07/barack_obama_2021.jpg"
+}
+
+];
+
+function randomSymbol(){
+    return symbols[Math.floor(Math.random()*symbols.length)];
+}
+
+function updateCoins(){
+    document.getElementById("coins").textContent = coins;
+}
+
+function spin(){
+
+    if(coins < 10){
+        document.getElementById("message").textContent="You're out of coins!";
+        return;
+    }
+
+    coins -= 10;
+    updateCoins();
+
+    const button = document.getElementById("spinButton");
+    button.disabled = true;
+
+    let spins = 0;
+
+    const animation = setInterval(()=>{
+
+        const a=randomSymbol();
+        const b=randomSymbol();
+        const c=randomSymbol();
+
+        document.getElementById("img1").src=a.img;
+        document.getElementById("img2").src=b.img;
+        document.getElementById("img3").src=c.img;
+
+        spins++;
+
+        if(spins>=18){
+
+            clearInterval(animation);
+
+            let winnings=0;
+
+            if(a.name===b.name && b.name===c.name){
+                winnings=200;
+                document.getElementById("message").textContent="🎉 JACKPOT! +200 Coins";
+            }
+            else if(a.name===b.name || a.name===c.name || b.name===c.name){
+                winnings=40;
+                document.getElementById("message").textContent="You won +40 Coins!";
+            }
+            else{
+                document.getElementById("message").textContent="No luck this time.";
+            }
+
+            coins+=winnings;
+            updateCoins();
+            button.disabled=false;
+
+        }
+
+    },100);
+
+}
+
+updateCoins();
+spin();
+
+</script>
+
+</body>
+</html>
