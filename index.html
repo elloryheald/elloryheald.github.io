@@ -1,13 +1,195 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<iframe src="https://trinket.io" 
-        width="100%" 
-        height="400" 
-        frameborder="0" 
-        marginwidth="0" 
-        marginheight="0" 
-        allowfullscreen>
-</iframe>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verity Guesser</title>
+
+    <style>
+        body {
+            background: #111;
+            color: white;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding-top: 60px;
+        }
+
+        h1 {
+            font-size: 40px;
+            color: #8aff80;
+        }
+
+        p {
+            font-size: 18px;
+        }
+
+        input {
+            width: 80%;
+            max-width: 600px;
+            padding: 15px;
+            font-size: 18px;
+            border-radius: 10px;
+            border: none;
+            margin: 20px 0;
+        }
+
+        button {
+            background: #8aff80;
+            color: #111;
+            border: none;
+            padding: 15px 30px;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #6ee866;
+        }
+
+        #result {
+            margin-top: 30px;
+            font-size: 22px;
+            font-weight: bold;
+        }
+
+        #scores {
+            margin-top: 15px;
+            font-size: 18px;
+            color: #ccc;
+        }
+
+        .win {
+            color: #8aff80;
+        }
+
+        .error {
+            color: #ff7070;
+        }
+    </style>
+</head>
+
+<body>
+
+    <h1>Verity Guesser</h1>
+
+    <p>
+        Guess 5 of:
+        <br>
+        <strong>verity, falsity, cruilty, lovity</strong>
+    </p>
+
+    <p>Enter 5 words separated by spaces:</p>
+
+    <input
+        id="guessInput"
+        type="text"
+        placeholder="verity falsity cruilty lovity verity"
+    >
+
+    <br>
+
+    <button onclick="checkGuess()">GUESS!</button>
+
+    <div id="result"></div>
+    <div id="scores"></div>
+
+    <script>
+        // Verity Guesser
+        // 1 = verity
+        // 2 = falsity
+        // 3 = cruilty
+        // 4 = lovity
+
+        const guessMapping = {
+            "verity": 1,
+            "falsity": 2,
+            "cruilty": 3,
+            "lovity": 4
+        };
+
+        // Generate the secret 5-word combination
+        const v1 = Math.floor(Math.random() * 4) + 1;
+        const v2 = Math.floor(Math.random() * 4) + 1;
+        const v3 = Math.floor(Math.random() * 4) + 1;
+        const v4 = Math.floor(Math.random() * 4) + 1;
+        const v5 = Math.floor(Math.random() * 4) + 1;
+
+        const secret = [v1, v2, v3, v4, v5];
+
+        function checkGuess() {
+            const input = document.getElementById("guessInput").value
+                .toLowerCase()
+                .trim();
+
+            const words = input.split(/\s+/);
+
+            const result = document.getElementById("result");
+            const scores = document.getElementById("scores");
+
+            // Make sure exactly 5 words were entered
+            if (words.length !== 5) {
+                result.className = "error";
+                result.textContent = "YOU HAVE TO GUESS EXACTLY 5 WORDS!";
+                scores.textContent = "";
+                return;
+            }
+
+            // Make sure all words are valid
+            if (words.some(word => !(word in guessMapping))) {
+                result.className = "error";
+                result.textContent =
+                    "NOPE! Use only verity, falsity, cruilty, or lovity.";
+                scores.textContent = "";
+                return;
+            }
+
+            const guess = words.map(word => guessMapping[word]);
+
+            let score = 0;
+            let individualScores = [];
+
+            // Check each position
+            for (let i = 0; i < 5; i++) {
+                if (guess[i] === secret[i]) {
+                    individualScores.push(1);
+                    score++;
+                } else {
+                    individualScores.push(0);
+                }
+            }
+
+            // Display result
+            if (score === 0) {
+                result.className = "error";
+                result.textContent = "NO YOU GOT NONE RIGHT!";
+            } else if (score === 5) {
+                result.className = "win";
+                result.textContent = "YAY YOU GOT THEM ALL RIGHT! 🎉";
+            } else {
+                result.className = "";
+                result.textContent = `You got ${score}/5 right!`;
+            }
+
+            scores.textContent =
+                `Positions: ${individualScores.join("  ")}`;
+
+            // If they win, disable the game
+            if (score === 5) {
+                document.getElementById("guessInput").disabled = true;
+            }
+        }
+
+        // Allow pressing Enter instead of clicking GUESS
+        document.getElementById("guessInput").addEventListener("keydown", function(event) {
+            if (event.key === "Enter") {
+                checkGuess();
+            }
+        });
+    </script>
+
 </body>
 </html>
+```
